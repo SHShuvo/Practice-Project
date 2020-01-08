@@ -5,10 +5,20 @@ namespace App\Http\Controllers\Admin;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Redirect;
 
 class AdminLoginController extends Controller
 {   
+
+    public function __construct()
+    {
+        $this->middleware('guest:admin',['except'=>['logout']]);
+    }
+
+    public function logout(){
+        Auth::guard('admin')->logout();
+        return redirect('/');
+    }
+
     public function showForm(){
        return view('welcome');
     }

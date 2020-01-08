@@ -58,7 +58,7 @@ class Handler extends ExceptionHandler
         switch ($guard)
         {
             case 'admin':
-                $login ='/';
+                $login ='admin.show';
                 break;
             default:
                 $login = 'login';

@@ -54,8 +54,6 @@ const router = new VueRouter({
     routes // short for `routes: routes`
 })
 
-
-Vue.component('example-component', require('./components/ExampleComponent.vue').default);
 Vue.component('login-component', require('./components/Login.vue').default);
 Vue.component('admin', require('./components/Admin.vue').default);
 
