@@ -8,7 +8,11 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Redirect;
 
 class AdminLoginController extends Controller
-{
+{   
+    public function showForm(){
+       return view('welcome');
+    }
+
     public function login(Request $request)
     {   
         $this->validate($request, [

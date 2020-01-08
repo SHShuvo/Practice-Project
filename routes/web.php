@@ -11,11 +11,13 @@
 |
 */
 
-Route::get('/', 'Admin\AdminDashboardController@index');
+//Route::get('/', function(){
+  //  return view('welcome');
+//});
 
 
 Route::prefix('/admin')->group(function(){
-    //Route::get('/loginForm', 'Admin\AdminLoginController@show')->name('admin.login');  
+    Route::get('/show-form', 'Admin\AdminLoginController@showForm')->name('admin.login');  
     Route::post('/login', 'Admin\AdminLoginController@login')->name('admin.login');
     Route::get('/', 'Admin\AdminDashboardController@index')->name('admin.dashboard');
 });

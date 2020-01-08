@@ -16,9 +16,10 @@
        
     </head>
     <body>
-
-        <div class="content" id="app">
-            <h3>Logged in as Admin</h3>
+        <div id="app">
+            <div>
+                <admin></admin>
+            </div>
         </div>
         <script type="text/javascript" src="/js/app.js" defer></script>
     </body>
