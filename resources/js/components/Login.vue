@@ -1,7 +1,7 @@
 <template>
   <div class="container-fluid">
     <div class="d-flex justify-content-center h-100">
-		  <div class="card mt-4">
+		  <div v-show="loginStatus" class="card mt-4">
         <div class="card-header">
           <h3>Sign In</h3>
         </div>
@@ -28,14 +28,46 @@
         </div>
         <div class="card-footer">
           <div class="d-flex justify-content-center links">
-            Don't have an account?<a href="#">Sign Up</a>
+            Don't have an account?<a href="#" @click="signUp">Sign Up</a>
           </div>
           <div class="d-flex justify-content-center">
             <a href="#">Forgot your password?</a>
           </div>
         </div>
 		  </div>
-	  </div>   
+
+		  <div v-show="!loginStatus" class="card mt-4">
+        <div class="card-header">
+          <h3>Sign Up</h3>
+        </div>
+        <div class="card-body">
+            <div class="input-group form-group">
+              <div class="input-group-prepend">
+                <span class="input-group-text"><i class="fas fa-user"></i></span>
+              </div>
+              <input type="text" v-model=form.name class="form-control" placeholder="Name">
+            </div>
+
+            <div class="input-group form-group">
+              <div class="input-group-prepend">
+                <span class="input-group-text"><i class="fas fa-at"></i></span>
+              </div>
+              <input type="text" v-model=form.email class="form-control" placeholder="Email">
+            </div>
+
+            <div class="input-group form-group">
+              <div class="input-group-prepend">
+                <span class="input-group-text"><i class="fas fa-key"></i></span>
+              </div>
+              <input type="password" v-model=form.password class="form-control" placeholder="password">
+            </div>
+            
+            <div class="form-group mt-5">
+              <button @click="registrationForm" class="btn float-right login_btn">Submit</button>
+            </div>
+        </div>
+		  </div>
+	  </div>  
   </div>
 </template>
 
@@ -43,7 +75,9 @@
   export default {
     data(){
         return{
+            loginStatus:true,
             form:new Form({
+                name:'',
                 email: '',
                 password:'',
                 remember:'',
@@ -58,17 +92,52 @@
     methods:{
       loginForm(){
         this.form.post('/admin/login').then(({data})=>{
-          window.location.href = '/admin';
+          if(data.logmsg == 'error'){
+              toast.fire({
+                  type: 'warning',
+                  title: 'Check your Email and Password'
+              });
+          }
+          else{
+            window.location.href = '/admin';
+            toast.fire({
+                type: 'success',
+                title: 'Successfully Logged in'
+            });
+          }
+          
       })
       .catch(()=>{
-          console.log('not loggedin')
+          toast.fire({
+              type: 'warning',
+              title: 'Check your Email and Password'
+          });
       });
+      },
 
+      signUp(){
+        this.loginStatus=false;
+         this.form.reset();
+      },
+      registrationForm(){
+        this.form.post('/admin/registration').then(({data})=>{
+          toast.fire({
+            type: 'success',
+            title: 'Sign up successfully'
+          })
+          this.loginStatus=true;  
+      })
+      .catch(()=>{
+          toast.fire({
+            type: 'warning',
+            title: 'Invalid Information. Try Again'
+          })
+      });
       },
     },  
 
     created() {
-      
+      this.form.reset();
     }
     }
 

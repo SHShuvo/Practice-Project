@@ -8,7 +8,8 @@
             <div class="sidebar-content">
                 <!-- sidebar-brand  -->
                 <div class="sidebar-item sidebar-brand">
-                    <a to="/admin">pro sidebar</a>
+                    <router-link to="/admin">Add Products
+                    </router-link>
                     <div id="close-sidebar" @click="closeMenu">
                         <i class="fas fa-times"></i>
                     </div>
@@ -16,7 +17,7 @@
                 <!-- sidebar-header  -->
                 <div class="sidebar-item sidebar-header">
                     <div class="user-pic">
-                        <img class="img-responsive img-rounded" src="" alt="User picture">
+                        <img class="img-responsive img-rounded" src="https://klipp.tv/wp-content/uploads/2017/07/AtienzaJoshua-2x2.jpg" alt="User picture">
                     </div>
                     <div class="user-info">
                         <span class="user-name">Jhon
@@ -45,36 +46,26 @@
                 <!-- sidebar-menu  -->
                 <div class=" sidebar-item sidebar-menu">
                     <ul>
-                        <li class="sidebar-dropdown">
-                            <a href="#homeSubmen"  data-toggle="collapse" aria-expanded="false" >
-                                <i class="fa fa-tachometer-alt"></i>
-                                <span>Dashboard</span>
-                                <span class="badge badge-pill badge-warning">New</span>
-                            </a>
-            
-                            <ul class="collapse list-unstyled" id="homeSubmen">
-                                <li>
-                                    <a href="#">Dashboard 1
-                                        <span class="badge badge-pill badge-success">Pro</span>
-                                    </a>
-                                </li>
-                            </ul>
-                            
-                        </li>
 
                         <li class="sidebar-dropdown">
                             <a href="#settingsSubmenu" data-toggle="collapse" aria-expanded="false" >
-                                <i class="fas fa-cogs"></i>
-                                Settings
+                                <i class="fab fa-product-hunt"></i>
+                                Products
                             </a>
                             
                             <ul class="collapse" style="margin-left:10px" id="settingsSubmenu">
                                <li>
-                                    <a href="#">
-                                        <i class="fa fa-tachometer-alt"></i>General Settings
-                                    </a>
+                                    <router-link to="/admin/add-products">
+                                        <i class="fas fa-plus"></i>
+                                        Add Products
+                                    </router-link>
                                </li>
-                              
+                               <li>
+                                    <router-link to="/admin/list-products">
+                                        <i class="fas fa-list"></i>
+                                        Products List
+                                    </router-link>
+                               </li>
                             </ul>
                         </li>
 
@@ -122,7 +113,7 @@
                        
                        
                         <li>
-                            <a href="#">
+                            <a href="/admin/logout">
                                 <i class="fa fa-power-off" style="color:red"></i>
                                 <span>LogOut</span>
                             </a>
@@ -134,9 +125,10 @@
             </div>
 
         </nav>
+        
         <!-- sidebar-content  -->
         <div class="page-content">
-            
+            <router-view></router-view>
         </div>
         <!-- page-content" -->
     </div>

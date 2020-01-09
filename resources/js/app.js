@@ -47,7 +47,11 @@ Vue.use(VueProgressBar, {
 import VueRouter from 'vue-router';
 Vue.use(VueRouter);
 
-let routes = []
+let routes = [
+    { path: '/admin', component: require('./components/Test.vue').default },
+    { path: '/admin/add-products', component: require('./components/dashboard/AddProducts.vue').default },
+    { path: '/admin/list-products', component: require('./components/dashboard/ProductsList.vue').default },
+];
 
 const router = new VueRouter({
     mode: 'history',
@@ -60,4 +64,5 @@ Vue.component('admin', require('./components/Admin.vue').default);
 
 const app = new Vue({
     el: '#app',
+    router,
 });
