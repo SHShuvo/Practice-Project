@@ -2377,19 +2377,121 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
+      posts: [],
       form: new Form({
+        id: '',
         title: '',
         body: '',
         photo: ''
       })
     };
   },
-  methods: {},
-  mounted: function mounted() {
-    console.log('Component mounted.');
+  methods: {
+    loadPosts: function loadPosts() {
+      var _this = this;
+
+      axios.get('/posts').then(function (_ref) {
+        var data = _ref.data;
+        return _this.posts = data.data;
+      });
+    },
+    editPost: function editPost(post) {
+      this.form.reset();
+      $('#addPost').modal('show');
+      this.form.fill(post);
+    },
+    updatePost: function updatePost() {
+      var _this2 = this;
+
+      this.$Progress.start();
+      this.form.put('/posts/' + this.form.id).then(function () {
+        swal.fire('Updated!', 'The user has been updated.', 'success');
+        Fire.$emit('afterCreate');
+        $('#addPost').modal('hide');
+
+        _this2.$Progress.finish();
+      })["catch"](function () {
+        swal.fire("Failed!", "There was something wrong.", "warning");
+
+        _this2.$Progress.fail();
+      });
+    },
+    addPicture: function addPicture(e) {
+      var _this3 = this;
+
+      var file = e.target.files[0];
+      console.log(file);
+      var reader = new FileReader();
+
+      if (file['size'] <= 2111775) {
+        reader.onloadend = function (file) {
+          _this3.form.photo = reader.result;
+        };
+
+        reader.readAsDataURL(file);
+      } else {
+        swal.fire('Oops!', 'you are uploading larger file than 2 MB ', 'error');
+      }
+    },
+    deletePost: function deletePost(id) {
+      swal.fire({
+        title: 'Are you sure?',
+        text: "You won't be able to revert this!",
+        type: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes, delete it!'
+      }).then(function (result) {
+        // Send request to the server
+        if (result.value) {
+          //axios.delete('posts/'+id)
+          axios.post('/posts/' + id, {
+            _method: 'delete'
+          }).then(function () {
+            swal.fire('Deleted!', 'The post has been deleted.', 'success');
+            Fire.$emit('afterCreate');
+          })["catch"](function () {
+            swal.fire("Failed!", "There was something wrong.", "warning");
+          });
+        }
+      });
+    }
+  },
+  created: function created() {
+    var _this4 = this;
+
+    this.loadPosts();
+    Fire.$on('afterCreate', function () {
+      _this4.loadPosts();
+    });
   }
 });
 
@@ -6957,7 +7059,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-
 
 
 // module
-exports.push([module.i, "\n.widget[data-v-4fb53530] {\r\n    margin-bottom: 50px;\n}\n.widget-title[data-v-4fb53530] {\r\n    text-transform: uppercase;\r\n    border-bottom: 2px solid;\r\n    line-height: 30px;\r\n    letter-spacing: 1px;\n}\n.baloo-post-widget.list .list-post-thumb .post-item[data-v-4fb53530] {\r\n    overflow: hidden;\r\n    margin-bottom: 15px;\r\n    padding-bottom: 15px;\r\n    border-bottom: 1px solid #eee;\n}\n.baloo-post-widget.list .list-post-thumb .post-format[data-v-4fb53530] {\r\n    float: left;\r\n    width: 120px;\r\n    margin-right: 20px;\n}\r\n", ""]);
+exports.push([module.i, "\n.widget[data-v-4fb53530] {\r\n    margin-bottom: 0px;\n}\na[data-v-4fb53530] {\r\ncolor: #007bff;\r\ntext-decoration: none;\n}\n.widget-title[data-v-4fb53530] {\r\n    text-transform: uppercase;\r\n    border-bottom: 2px solid;\r\n    line-height: 30px;\r\n    letter-spacing: 1px;\n}\n.home_feature_posts_widget .baloo-feature-cat[data-v-4fb53530] {\r\n    margin-bottom: 50px;\n}\n.blog-list .post[data-v-4fb53530] {\r\n    border-bottom: 1px solid #eee;\r\n    padding-bottom: 10px;\n}\n.blog-list .post-format img[data-v-4fb53530] {\r\n    vertical-align: middle;\r\n    border-style: none;\r\n    max-width: 314px;\n}\n.baloo-blog .post .post-inner[data-v-4fb53530] {\r\n    position: relative;\r\n    margin-top: 22px;\n}\n.baloo-blog .post .post-format[data-v-4fb53530] {\r\n    position: relative;\n}\n.blog-list .post-format[data-v-4fb53530] {\r\n    width: 380px;\r\n    margin-right: 30px;\r\n    float: left;\n}\n.blog-list .post-info[data-v-4fb53530] {\r\n    overflow: hidden;\n}\n.baloo-blog .post-cats[data-v-4fb53530] {\r\n    margin-bottom: 20px;\n}\n.post-cats a[data-v-4fb53530] {\r\n    background: #8fb59e;\n}\n.post-cats a[data-v-4fb53530] {\r\n    background: #8fb59e;\r\n    padding: 0 10px;\r\n    line-height: 20px;\r\n    color: #fff;\n}\n.baloo-blog .post-title[data-v-4fb53530] {\r\n    margin-bottom: 10px;\r\n    font-size: 22px;\n}\n.baloo-blog .post-meta[data-v-4fb53530] {\r\n    margin-bottom: 15px;\n}\n.post-meta[data-v-4fb53530] {\r\n    vertical-align: middle;\n}\n.baloo-post-widget.list .list-post-thumb .post-item[data-v-4fb53530] {\r\n    overflow: hidden;\r\n    margin-bottom: 15px;\r\n    padding-bottom: 15px;\r\n    border-bottom: 1px solid #eee;\n}\n.baloo-post-widget.list .list-post-thumb .post-format[data-v-4fb53530] {\r\n    float: left;\r\n    width: 120px;\r\n    margin-right: 20px;\n}\r\n", ""]);
 
 // exports
 
@@ -61003,18 +61105,10 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _vm._m(0)
-}
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "container " }, [
-      _c("div", { staticClass: "featured-posts-slider" }),
-      _vm._v(" "),
+  return _c("span", [
+    _c("div", { staticClass: "container " }, [
       _c("div", { staticClass: "row wrapper-main-content" }, [
-        _c("div", { staticClass: "has-sidebar col-md-12 col-lg-8" }, [
+        _c("div", { staticClass: "has-sidebar col-md-12 col-lg-12" }, [
           _c("div", { staticClass: "main-left main-content" }, [
             _c(
               "div",
@@ -61023,145 +61117,325 @@ var staticRenderFns = [
                 attrs: { id: "home_feature_posts_widget-2" }
               },
               [
-                _c("h4", { staticClass: "widget-title" }, [
-                  _vm._v("Food & Drink")
-                ]),
+                _c("h4", { staticClass: "widget-title" }, [_vm._v("Products")]),
                 _vm._v(" "),
                 _c("div", { staticClass: "baloo-feature-cat list" }, [
-                  _c("div", { staticClass: "baloo-blog blog-list" }, [
-                    _c(
-                      "div",
-                      {
-                        staticClass:
-                          "post-37 post type-post status-publish format-standard has-post-thumbnail hentry category-food-drink category-lifestyle"
-                      },
-                      [
-                        _c("div", { staticClass: "post-inner" }, [
-                          _c("div", { staticClass: "post-format" }, [
-                            _c("a", {
-                              staticStyle: {
-                                "background-image":
-                                  "url('http://baloo.az-theme.net/wp-content/uploads/2019/05/iryna-ogarkova-447661-unsplash.jpg')"
-                              },
-                              attrs: {
-                                href:
-                                  "http://baloo.az-theme.net/21-crazy-fast-dessert-recipes-that-crush-sugar/"
-                              }
-                            })
-                          ]),
-                          _vm._v(" "),
-                          _c("div", { staticClass: "post-info" }, [
-                            _c("div", { staticClass: "post-cats" }, [
-                              _c(
-                                "a",
-                                {
-                                  attrs: {
-                                    href:
-                                      "http://baloo.az-theme.net/category/food-drink/",
-                                    rel: "category tag"
-                                  }
-                                },
-                                [_vm._v("Food & Drink")]
-                              ),
+                  _c(
+                    "div",
+                    { staticClass: "baloo-blog blog-list" },
+                    _vm._l(_vm.posts, function(post) {
+                      return _c(
+                        "div",
+                        {
+                          key: post.id,
+                          staticClass:
+                            "post-37 post type-post status-publish format-standard has-post-thumbnail hentry category-food-drink category-lifestyle"
+                        },
+                        [
+                          _c("div", { staticClass: "post-inner" }, [
+                            _c("div", { staticClass: "post-format" }, [
+                              _c("img", {
+                                attrs: {
+                                  src: "/img/post/" + post.photo,
+                                  alt: "Uniform"
+                                }
+                              })
+                            ]),
+                            _vm._v(" "),
+                            _c("div", { staticClass: "post-info" }, [
+                              _c("div", { staticClass: "post-cats" }, [
+                                _c(
+                                  "a",
+                                  {
+                                    staticStyle: { color: "white" },
+                                    attrs: { href: "#" }
+                                  },
+                                  [_vm._v("Details")]
+                                ),
+                                _vm._v(" "),
+                                _c(
+                                  "a",
+                                  {
+                                    staticStyle: {
+                                      color: "white",
+                                      "background-color": "#cfa61d"
+                                    },
+                                    attrs: { href: "#" },
+                                    on: {
+                                      click: function($event) {
+                                        return _vm.editPost(post)
+                                      }
+                                    }
+                                  },
+                                  [_c("strong", [_vm._v("Edit")])]
+                                ),
+                                _vm._v(" "),
+                                _c(
+                                  "a",
+                                  {
+                                    staticStyle: {
+                                      color: "white",
+                                      "background-color": "#b6122d"
+                                    },
+                                    attrs: { href: "#" },
+                                    on: {
+                                      click: function($event) {
+                                        return _vm.deletePost(post.id)
+                                      }
+                                    }
+                                  },
+                                  [_vm._v("Delete")]
+                                )
+                              ]),
+                              _c("h3", { staticClass: "post-title" }, [
+                                _c(
+                                  "a",
+                                  { attrs: { href: "#", rel: "bookmark" } },
+                                  [_vm._v(_vm._s(post.title))]
+                                )
+                              ]),
                               _vm._v(" "),
-                              _c(
-                                "a",
-                                {
-                                  attrs: {
-                                    href:
-                                      "http://baloo.az-theme.net/category/lifestyle/",
-                                    rel: "category tag"
-                                  }
-                                },
-                                [_vm._v("Lifestyle")]
-                              )
+                              _vm._m(0, true),
+                              _vm._v(" "),
+                              _c("div", { staticClass: "post-excerpt" }, [
+                                _c("p", [
+                                  _vm._v(
+                                    _vm._s(_vm._f("postBody")(post.body, 350))
+                                  )
+                                ])
+                              ])
                             ])
                           ])
-                        ])
-                      ]
-                    )
-                  ])
-                ])
-              ]
-            )
-          ])
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "col-md-12 col-lg-4" }, [
-          _c("div", { staticClass: "sidebar", attrs: { id: "sidebar" } }, [
-            _c(
-              "div",
-              {
-                staticClass: "widget baloo_latest_posts_widget",
-                attrs: { id: "baloo_latest_posts_widget-2" }
-              },
-              [
-                _c("h4", { staticClass: "widget-title" }, [
-                  _vm._v("List Posts")
-                ]),
-                _vm._v(" "),
-                _c("div", { staticClass: "baloo-post-widget list" }, [
-                  _c("div", { staticClass: "list-post-thumb" }, [
-                    _c("div", { staticClass: "post-item" }, [
-                      _c("div", { staticClass: "post-format" }, [
-                        _c("figure", [
-                          _c("img", {
-                            attrs: {
-                              src:
-                                "http://baloo.az-theme.net/wp-content/uploads/2019/05/paige-cody-1276949-unsplash-585x390.jpg",
-                              alt: "Uniform"
-                            }
-                          })
-                        ])
-                      ]),
-                      _vm._v(" "),
-                      _c("div", { staticClass: "post-info" }, [
-                        _c("h3", { staticClass: "post-title" }, [
-                          _c(
-                            "a",
-                            {
-                              attrs: {
-                                href:
-                                  "http://baloo.az-theme.net/angelina-jolie-has-found-the-perfect-summer-office-uniform/"
-                              }
-                            },
-                            [
-                              _vm._v(
-                                "Angelina Jolie Has Found the Perfect Summer Office Uniform\n                                        "
-                              )
-                            ]
-                          )
-                        ]),
-                        _vm._v(" "),
-                        _c("div", { staticClass: "post-meta" }, [
-                          _c("div", { staticClass: "ath-post" }, [
-                            _c("span", [_vm._v("by")]),
-                            _vm._v(
-                              " admin\n                                        "
-                            )
-                          ]),
-                          _vm._v(" "),
-                          _c("div", { staticClass: "date-post" }, [
-                            _c("span", { staticClass: "post-date" }, [
-                              _vm._v("May 23, 2019")
-                            ])
-                          ]),
-                          _vm._v(" "),
-                          _c("div", { staticClass: "comment-number" }, [
-                            _vm._v(
-                              " No Comments\n                                        "
-                            )
-                          ])
-                        ])
-                      ])
-                    ])
-                  ])
+                        ]
+                      )
+                    }),
+                    0
+                  )
                 ])
               ]
             )
           ])
         ])
-      ])
+      ]),
+      _vm._v(" "),
+      _c(
+        "div",
+        {
+          staticClass: "modal fade",
+          attrs: {
+            id: "addPost",
+            tabindex: "-1",
+            role: "dialog",
+            "aria-labelledby": "addNewLabel",
+            "aria-hidden": "true"
+          }
+        },
+        [
+          _c(
+            "div",
+            {
+              staticClass: "modal-dialog modal-dialog-centered",
+              attrs: { role: "document" }
+            },
+            [
+              _c("div", { staticClass: "modal-content" }, [
+                _vm._m(1),
+                _vm._v(" "),
+                _c(
+                  "form",
+                  {
+                    on: {
+                      submit: function($event) {
+                        $event.preventDefault()
+                        return _vm.updatePost($event)
+                      }
+                    }
+                  },
+                  [
+                    _c("div", { staticClass: "modal-body" }, [
+                      _c(
+                        "div",
+                        { staticClass: "form-group" },
+                        [
+                          _c("input", {
+                            directives: [
+                              {
+                                name: "model",
+                                rawName: "v-model",
+                                value: _vm.form.title,
+                                expression: "form.title"
+                              }
+                            ],
+                            staticClass: "form-control",
+                            class: {
+                              "is-invalid": _vm.form.errors.has("title")
+                            },
+                            attrs: {
+                              type: "text",
+                              name: "title",
+                              placeholder: "Title"
+                            },
+                            domProps: { value: _vm.form.title },
+                            on: {
+                              input: function($event) {
+                                if ($event.target.composing) {
+                                  return
+                                }
+                                _vm.$set(_vm.form, "title", $event.target.value)
+                              }
+                            }
+                          }),
+                          _vm._v(" "),
+                          _c("has-error", {
+                            attrs: { form: _vm.form, field: "title" }
+                          })
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "div",
+                        { staticClass: "form-group" },
+                        [
+                          _c("textarea", {
+                            directives: [
+                              {
+                                name: "model",
+                                rawName: "v-model",
+                                value: _vm.form.body,
+                                expression: "form.body"
+                              }
+                            ],
+                            staticClass: "form-control",
+                            class: {
+                              "is-invalid": _vm.form.errors.has("body")
+                            },
+                            attrs: { name: "body", placeholder: "Post Body" },
+                            domProps: { value: _vm.form.body },
+                            on: {
+                              input: function($event) {
+                                if ($event.target.composing) {
+                                  return
+                                }
+                                _vm.$set(_vm.form, "body", $event.target.value)
+                              }
+                            }
+                          }),
+                          _vm._v(" "),
+                          _c("has-error", {
+                            attrs: { form: _vm.form, field: "body" }
+                          })
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "form-group" }, [
+                        _c(
+                          "label",
+                          {
+                            staticClass: "col-sm-4 control-label",
+                            attrs: { for: "photo" }
+                          },
+                          [_vm._v("Add Photo: ")]
+                        ),
+                        _vm._v(" "),
+                        _c(
+                          "div",
+                          { staticClass: "col-sm-10" },
+                          [
+                            _c("input", {
+                              staticClass: "form-input",
+                              class: {
+                                "is-invalid": _vm.form.errors.has("photo")
+                              },
+                              attrs: {
+                                type: "file",
+                                name: "photo",
+                                placeholder: "Choose Photo"
+                              },
+                              on: { change: _vm.addPicture }
+                            }),
+                            _vm._v(" "),
+                            _c("has-error", {
+                              attrs: { form: _vm.form, field: "photo" }
+                            })
+                          ],
+                          1
+                        )
+                      ])
+                    ]),
+                    _vm._v(" "),
+                    _vm._m(2)
+                  ]
+                )
+              ])
+            ]
+          )
+        ]
+      )
+    ])
+  ])
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "post-meta" }, [
+      _c("div", { staticClass: "ath-post" }, [
+        _c("span", [_vm._v("by")]),
+        _vm._v(" admin")
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "date-post" }, [
+        _c("span", { staticClass: "post-date" }, [_vm._v("May 22, 2019")])
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "comment-number" }, [_vm._v(" No Comments")])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "modal-header" }, [
+      _c("h5", { staticClass: "modal-title", attrs: { id: "addPost" } }, [
+        _vm._v("Add New Post")
+      ]),
+      _vm._v(" "),
+      _c(
+        "button",
+        {
+          staticClass: "close",
+          attrs: {
+            type: "button",
+            "data-dismiss": "modal",
+            "aria-label": "Close"
+          }
+        },
+        [_c("span", { attrs: { "aria-hidden": "true" } }, [_vm._v("×")])]
+      )
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "modal-footer" }, [
+      _c(
+        "button",
+        {
+          staticClass: "btn btn-danger",
+          attrs: { type: "button", "data-dismiss": "modal" }
+        },
+        [_vm._v("Close")]
+      ),
+      _vm._v(" "),
+      _c(
+        "button",
+        { staticClass: "btn btn-success", attrs: { type: "submit" } },
+        [_vm._v("Update")]
+      )
     ])
   }
 ]
@@ -76300,6 +76574,10 @@ Vue.use(vue_progressbar__WEBPACK_IMPORTED_MODULE_4___default.a, {
   color: 'rgb(143, 255, 199)',
   failedColor: 'red',
   height: '4px'
+});
+Vue.filter('postBody', function (text) {
+  var len = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 400;
+  return text.substr(0, len) + "...  ";
 });
 
 Vue.use(vue_router__WEBPACK_IMPORTED_MODULE_5__["default"]);

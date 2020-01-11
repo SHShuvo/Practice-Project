@@ -44,6 +44,10 @@ Vue.use(VueProgressBar, {
     height: '4px'
 })
 
+Vue.filter('postBody', function(text, len = 400) {
+    return text.substr(0, len) + "...  ";
+});
+
 import VueRouter from 'vue-router';
 Vue.use(VueRouter);
 
