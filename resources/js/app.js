@@ -44,6 +44,10 @@ Vue.use(VueProgressBar, {
     height: '4px'
 })
 
+import "chart.js";
+import "hchs-vue-charts";
+Vue.use(window.VueCharts);
+
 Vue.filter('postBody', function(text, len = 400) {
     return text.substr(0, len) + "...  ";
 });
